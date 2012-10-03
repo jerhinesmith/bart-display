@@ -1,0 +1,7 @@
+table.schedule tbody tr {
+  vertical-align: middle;
+}
+
+table.schedule tbody tr img {
+  padding-right: 5px;
+}

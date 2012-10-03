@@ -13,6 +13,7 @@
     %meta{:name => 'viewport', :content => 'width=device-width'}
     %link{:rel => 'stylesheet', :href => 'bootstrap/css/bootstrap.min.css'}
     %link{:rel => 'stylesheet', :href => 'bootstrap/css/bootstrap-responsive.min.css'}
+    %link{:rel => 'stylesheet', :href => 'stylesheets/screen.css'}
   %body
     .container
       %header
@@ -26,11 +27,20 @@
     %script{:src => "bootstrap/js/bootstrap.min.js"}
 
     :javascript
-      $(document).ready(function() {
+      var refreshInfo = function() {
+        // Clear the table
+        $("table.schedule tbody > tr").remove();
+
         $.get('next/powl.json', function(data) {
           $.each(data, function(index, value) { 
-            var bicycle_flag = (value.bikeflag == "1" ? "<td><img src='/images/bicycle-icon.png'></td>" : "<td></td>");
-            $("table.schedule > tbody").append("<tr><td style='background-color: " + value.hexcolor + "'>&nbsp;</td><td>" + value.station.name + "</td><td>" + value.minutes + "</td>" + bicycle_flag + "</tr>");
+            var bicycle_flag = (value.bikeflag == "1" ? "<img src='/images/bicycle-icon.png'>" : "");
+            $("table.schedule > tbody").append("<tr><td style='background-color: " + value.hexcolor + "'>&nbsp;</td><td>" + value.station.name + "</td><td>" + value.minutes + "</td><td><img src='/images/sub" + value.length + ".png'>" + bicycle_flag + "</td></tr>");
           });
         });
+      }
+      $(document).ready(function() {
+        var interval = 1000 * 60 * 1;
+        refreshInfo();
+        setInterval(refreshInfo, interval);
       });
+
