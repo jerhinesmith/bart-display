@@ -14,12 +14,14 @@
     %link{:rel => 'stylesheet', :href => 'bootstrap/css/bootstrap.min.css'}
     %link{:rel => 'stylesheet', :href => 'bootstrap/css/bootstrap-responsive.min.css'}
     %link{:rel => 'stylesheet', :href => 'stylesheets/screen.css'}
+    :css
+      body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
   %body
-    .container
-      %header
-        %h1 Bart!
-      %div{:role => 'main'}
-        = yield
+    .container-fluid
+      = yield
       %footer
         &copy; Justin
 
@@ -34,7 +36,7 @@
         $.get('next/powl.json', function(data) {
           $.each(data, function(index, value) { 
             var bicycle_flag = (value.bikeflag == "1" ? "<img src='/images/bicycle-icon.png'>" : "");
-            $("table.schedule > tbody").append("<tr><td style='background-color: " + value.hexcolor + "'>&nbsp;</td><td>" + value.station.name + "</td><td>" + value.minutes + "</td><td><img src='/images/sub" + value.length + ".png'>" + bicycle_flag + "</td></tr>");
+            $("table.schedule > tbody").append("<tr><td style='background-color: " + value.hexcolor + "; width: 10px;'>&nbsp;</td><td>" + value.station.name + "</td><td>" + value.minutes + "</td><td><img src='/images/sub" + value.length + ".png'>" + bicycle_flag + "</td></tr>");
           });
         });
       }
@@ -43,4 +45,3 @@
         refreshInfo();
         setInterval(refreshInfo, interval);
       });
-
