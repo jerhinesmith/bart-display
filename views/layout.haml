@@ -29,7 +29,7 @@
     %script{:src => "bootstrap/js/bootstrap.min.js"}
 
     :javascript
-      var refreshInfo = function() {
+      var refreshBart = function() {
         // Clear the table
         $("table.schedule tbody > tr").remove();
 
@@ -39,9 +39,30 @@
             $("table.schedule > tbody").append("<tr><td style='background-color: " + value.hexcolor + "; width: 10px;'>&nbsp;</td><td>" + value.station.name + "</td><td>" + value.minutes + "</td><td><img src='/images/sub" + value.length + ".png'>" + bicycle_flag + "</td></tr>");
           });
         });
-      }
+      };
+
+      var refreshWeather = function() {
+        var key = 'ebea330e1168cfb6';
+        // Get the data
+        $.ajax({
+          url : 'http://api.wunderground.com/api/' + key + '/conditions/q/CA/San_Francisco.json',
+          dataType : "jsonp",
+          success : function(data) {
+            var temp = data.current_observation.temp_f;
+            var icon = data.current_observation.icon_url;
+            var location = data.current_observation.display_location.full;
+            $('.weather p.location').text(location);
+            $('.weather h4.temperature').text(temp);
+            $('.weather span.icon').html("<img src='" + icon + "'/>");
+          }
+        });
+      };
+
       $(document).ready(function() {
-        var interval = 1000 * 60 * 1;
-        refreshInfo();
-        setInterval(refreshInfo, interval);
+        var bartInterval = 1000 * 60 * 1;
+        var weatherInterval = 1000 * 60 * 15;
+        refreshBart();
+        refreshWeather();
+        setInterval(refreshBart, bartInterval);
+        setInterval(refreshWeather, weatherInterval);
       });
