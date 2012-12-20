@@ -1,0 +1,17 @@
+.row-fluid
+  .span3
+    %h3 Options
+    %p Table of contents
+  .span9
+    %form{'accept-charset' => 'UTF-8', :action => '/', :method => :get, :id => :setup}
+      %input{:type => 'hidden', :name => 'utf8', :value => '✓'}
+      %h3 Bart
+      %select{:id => :station, :name => :station}
+        - @bart_stations.each do |name, abbreviation|
+          %option{:value => abbreviation}= name
+      %h3 Weather City
+      %input{:type => :text, :name => :weather_city, :id => :weather_city}
+      %h3 Weather State
+      %input{:type => :text, :name => :weather_state, :id => :weather_state}
+      .actions
+        %input{:class => 'btn btn-primary', :name => :commit, :type => :submit, :value => 'Setup'}
